@@ -67,3 +67,33 @@ export const getCart = async (req, res) => {
         });
     }
 };
+
+export const removeCartItem = async(req, res) => {
+    try {
+
+        const { productId } = req.body
+        const userId = req.user.id
+        const cart = await Cart.findOne({ user: userId })
+
+        if (!cart) {
+            return res.json({
+                message: 'cart not found'
+            })
+        }
+
+        cart.items = cart.items.filter(e => {
+            return e.product.toString() !== productId
+        })
+
+        await cart.save()
+
+        res.status(200).json({
+            message: "Item removed",
+            cart,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+}
