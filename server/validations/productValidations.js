@@ -17,10 +17,6 @@ export const createProductSchema = z.object({
     .string()
     .min(1, "Image is required"),
 
-  category: z
-    .string()
-    .min(1, "Category is required"),
-
   stock: z
     .number()
     .min(0, "Stock cannot be negative"),
