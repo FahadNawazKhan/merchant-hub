@@ -1,69 +1,57 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import api from "../api/axios";
+import ProductCard from "./ProductCard";
+import { ArrowRight } from "lucide-react";
+
 const FeaturedEquipment = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const response = await api.get("/products/items");
+        setProducts(response.data.slice(0, 3));
+      } catch (err) {
+        console.error("Failed to load featured products", err);
+      }
+    };
+    fetchFeatured();
+  }, []);
+
   return (
-    <section className="bg-slate-950 text-white px-6 py-24">
+    <section className="bg-slate-950 text-white px-6 py-24 border-t border-slate-900">
       <div className="max-w-7xl mx-auto">
 
-        <p className="text-blue-400 mb-3">
-          FEATURED EQUIPMENT
-        </p>
-
-        <h2 className="text-4xl md:text-5xl font-bold mb-12">
-          Built for your next project.
-        </h2>
-
-        <div className="grid gap-6">
-
-          {/* Card 1 */}
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-10 md:p-16">
-            <p className="text-blue-400 mb-2">
-              ORBITAL MK-I
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+          <div>
+            <p className="text-blue-400 mb-3 font-semibold text-xs uppercase">
+              TRENDING PRODUCTS
             </p>
-
-            <h3 className="text-3xl md:text-5xl font-bold mb-4">
-              Precision typing.
-              <br />
-              Zero distractions.
-            </h3>
-
-            <p className="text-slate-400 max-w-xl">
-              Engineered for developers, designers and builders who spend
-              hours creating the future.
-            </p>
+            <h2 className="text-4xl md:text-5xl font-extrabold ">
+              Best-Selling Equipment
+            </h2>
           </div>
-
-          {/* Card 2 */}
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-10 md:p-16">
-            <p className="text-cyan-400 mb-2">
-              TITAN ARM
-            </p>
-
-            <h3 className="text-3xl md:text-5xl font-bold mb-4">
-              Elevate your
-              workspace.
-            </h3>
-
-            <p className="text-slate-400 max-w-xl">
-              Premium monitor mounting designed for clean setups and
-              maximum productivity.
-            </p>
-          </div>
-
-          {/* Card 3 */}
-          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-10 md:p-16">
-            <p className="text-purple-400 mb-2">
-              NOVA AUDIO
-            </p>
-
-            <h3 className="text-3xl md:text-5xl font-bold mb-4">
-              Hear every detail.
-            </h3>
-
-            <p className="text-slate-400 max-w-xl">
-              Studio-grade sound for focused work, gaming and creation.
-            </p>
-          </div>
-
+          <Link
+            to="/products"
+            className="mt-4 md:mt-0 flex items-center gap-1.5 text-blue-400 hover:text-blue-300 font-semibold group transition w-fit"
+          >
+            View All Products
+            <ArrowRight size={16} />
+          </Link>
         </div>
+
+        {products.length === 0 ? (
+          <div className="text-slate-500 py-16 text-center bg-slate-900/40 border border-slate-800 rounded-3xl">
+            No products found in the catalog database. Add some from the products page.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {products.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))}
+          </div>
+        )}
 
       </div>
     </section>

@@ -26,8 +26,20 @@ export const addToCart = async (req, res) => {
 
         const existingItem = cart.items.find(e => e.product.toString() === productId);
 
+        const currentQty = existingItem ? existingItem.quantity : 0;
+        const targetQty = currentQty + quantity;
+
+        if (targetQty > product.stock) {
+            return res.status(400).json({
+                message: `Only ${product.stock} items left in stock.`
+            });
+        }
+
         if (existingItem) {
             existingItem.quantity += quantity;
+            if (existingItem.quantity <= 0) {
+                cart.items = cart.items.filter(e => e.product.toString() !== productId);
+            }
         } else {
             cart.items.push({
                 product: productId,

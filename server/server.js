@@ -8,12 +8,13 @@ import { productRouter } from "./routes/productRoutes.js";
 import { cartRouter } from "./routes/cartRoutes.js";
 
 dotenv.config();
-const server = express();
-server.use(express.json());
+const server = express()
+server.use(express.json({ limit: "10mb" }));
+server.use(express.urlencoded({ limit: "10mb", extended: true }));
 server.use(cookieParser())
 server.use(
   cors({
-    origin: "http://127.0.0.1:5173",
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
     credentials: true,
   })
 );

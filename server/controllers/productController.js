@@ -89,3 +89,16 @@ export const deleteProduct = async (req, res) => {
         });
     }
 };
+
+export const uploadImage = (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: "Please upload an image file" });
+    }
+
+    const base64Image = req.file.buffer.toString("base64");
+    const dataUrl = `data:${req.file.mimetype};base64,${base64Image}`;
+
+    res.status(200).json({
+        imageUrl: dataUrl
+    });
+};

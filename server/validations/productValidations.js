@@ -43,11 +43,6 @@ export const updateProductSchema = z.object({
     .min(1, "Image is required")
     .optional(),
 
-  category: z
-    .string()
-    .min(1, "Category is required")
-    .optional(),
-
   stock: z
     .number()
     .min(0, "Stock cannot be negative")
