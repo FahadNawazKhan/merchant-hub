@@ -587,5 +587,3 @@ We welcome contributions to help improve Merchant Hub!
 Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
-
-*Merchant Hub — Designed by builders, for builders.*
