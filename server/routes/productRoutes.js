@@ -14,7 +14,7 @@ import { upload } from "../middlewares/uploadMiddleware.js";
 
 export const productRouter = express.Router();
 
-productRouter.post("/upload", protect, admin, upload, uploadImage);
+productRouter.post("/upload", protect, admin, upload.single('image'), uploadImage);
 
 productRouter.get("/items", getProducts);
 

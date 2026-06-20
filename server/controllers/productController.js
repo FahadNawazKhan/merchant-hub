@@ -1,4 +1,6 @@
 import { Product } from "../models/Product.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
+
 
 export const createProduct = async (req, res) => {
     try {
@@ -90,15 +92,24 @@ export const deleteProduct = async (req, res) => {
     }
 };
 
-export const uploadImage = (req, res) => {
+export const uploadImage = async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: "Please upload an image file" });
     }
 
-    const base64Image = req.file.buffer.toString("base64");
-    const dataUrl = `data:${req.file.mimetype};base64,${base64Image}`;
+    try {
+        const imageUrl = await uploadOnCloudinary(req.file.path)
 
-    res.status(200).json({
-        imageUrl: dataUrl
-    });
+        if (!imageUrl) {
+            return res.status(500).json({ message: "Failed to upload image to Cloudinary" });
+        }
+
+        res.status(200).json({
+            imageUrl
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+        });
+    }
 };
