@@ -19,7 +19,7 @@ function LoginPage() {
       localStorage.setItem("user", JSON.stringify(response.data.user));
       navigate("/products");
     } catch (err) {
-      setError(err.response?.data?.message || "Invalid credentials");
+      setError(err.response.data.message || "Invalid credentials");
     } finally {
       setLoading(false);
     }
@@ -88,7 +88,7 @@ function LoginPage() {
                 focus:outline-none
                 focus:border-blue-400
               "
-              placeholder="••••••••"
+              placeholder="*********"
             />
           </div>
 

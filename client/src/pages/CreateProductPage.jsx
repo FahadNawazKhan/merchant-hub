@@ -29,7 +29,7 @@ function CreateProductPage() {
       alert("Product Created!");
       navigate("/products");
     } catch (err) {
-      alert(err.response?.data?.errors?.join(", ") || "Failed to create product");
+      alert(err.response.data.errors.join(", ") || "Failed to create product");
     }
   };
 
