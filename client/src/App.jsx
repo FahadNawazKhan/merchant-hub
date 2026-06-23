@@ -22,6 +22,7 @@ const App = () => {
     <div className="bg-slate-950 min-h-screen">
       <Navbar />
       <AppRoutes />
+      
     </div>
   );
 };
